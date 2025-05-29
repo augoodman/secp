@@ -1,23 +1,28 @@
-import { generateKeyPair, signMessage, verifySignature } from '../utils/crypto';
+import { generateKeyPair, generateEncryptionKeyPair, signMessage, verifySignature } from '../utils/crypto';
 
 export interface Identity {
   alias?: string;
   publicKey: string;
+  encryptionPublicKey: string;
   createdAt: number;
   signature: string;
 }
 
 export interface FullIdentity extends Identity {
   privateKey: string;
+  encryptionPrivateKey: string;
 }
+  
 
 export function createIdentity(alias?: string): FullIdentity {
   const { publicKey, privateKey } = generateKeyPair();
+  const { publicKey: encryptionPublicKey, privateKey: encryptionPrivateKey } = generateEncryptionKeyPair();
   const createdAt = Date.now();
 
   const identity: Omit<Identity, 'signature'> = {
     alias,
     publicKey,
+    encryptionPublicKey,
     createdAt,
   };
 
@@ -27,6 +32,8 @@ export function createIdentity(alias?: string): FullIdentity {
     ...identity,
     signature,
     privateKey,
+    encryptionPrivateKey,
+    encryptionPublicKey,
   };
 }
 
