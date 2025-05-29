@@ -7,7 +7,11 @@ export interface Identity {
   signature: string;
 }
 
-export function createIdentity(alias?: string): Identity {
+export interface FullIdentity extends Identity {
+  privateKey: string;
+}
+
+export function createIdentity(alias?: string): FullIdentity {
   const { publicKey, privateKey } = generateKeyPair();
   const createdAt = Date.now();
 
@@ -22,6 +26,7 @@ export function createIdentity(alias?: string): Identity {
   return {
     ...identity,
     signature,
+    privateKey,
   };
 }
 
