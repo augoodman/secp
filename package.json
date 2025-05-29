@@ -1,0 +1,22 @@
+{
+  "name": "secp",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "@types/node": "^22.15.24",
+    "tweetnacl": "^1.0.3",
+    "tweetnacl-util": "^0.15.1",
+    "typescript": "^5.8.3"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.10",
+    "ts-node": "^10.9.2"
+  }
+}
