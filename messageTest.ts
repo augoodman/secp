@@ -1,12 +1,12 @@
-import { encryptMessage, decryptMessage } from './src/message/message';
-import { createIdentity } from './src/identity/identity';
+import { createIdentity, FullIdentity } from './src/identity/identity';
+import { signConfig, SessionConfig } from './src/session/config';
 import { proposeSession, acceptSession } from './src/session/session';
-import { signConfig } from './src/session/config';
+import { encryptMessage, decryptMessage, EncryptedMessage } from './src/message/message';
 
-const alice = createIdentity('Alice');
-const bob = createIdentity('Bob');
+const alice: FullIdentity = createIdentity('anon-alice');
+const bob: FullIdentity = createIdentity('anon-bob');
 
-const config = signConfig({
+const config: SessionConfig = signConfig({
   encryption: 'DoubleRatchet',
   forwardSecrecy: true,
   metadataProtection: true,
@@ -17,14 +17,27 @@ const config = signConfig({
   sessionExpiry: 86400,
   createdAt: Date.now(),
   createdBy: alice.publicKey,
-}, alice.privateKey);
+}, alice.signingPrivateKey);
 
-const session = acceptSession(proposeSession(config, bob)!);
+const proposed = proposeSession(config, bob)!;
+const session = acceptSession(proposed);
 
-const plaintext = 'Secret: Alice is watching.';
-const encrypted = encryptMessage(plaintext, alice.encryptionPrivateKey, bob.encryptionPublicKey, session);
+// 📨 Alice sends Bob an encrypted, signed message
+const encrypted = encryptMessage(
+    'Secret: Alice is watching.',
+    alice,
+    bob.encryptionPublicKey,
+    session
+  );
+  
+
 console.log('🔒 Encrypted Message:\n', encrypted);
 
-// 🔧 This is where you fix the key direction:
-const decrypted = decryptMessage(encrypted, bob.encryptionPrivateKey, alice.encryptionPublicKey);
+// 📭 Bob tries to verify + decrypt
+const decrypted = decryptMessage(
+    encrypted,
+    bob.encryptionPrivateKey,
+    alice.signingPublicKey
+  );  
+
 console.log('🔓 Decrypted:', decrypted);

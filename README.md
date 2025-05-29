@@ -11,22 +11,28 @@ A modular, paranoid, zero-compromise secure messaging protocol. Built from scrat
 - **Multi-device restrictions** — optional, strict, and always user-controlled
 - **Transport agnostic** — relay, mixnet, p2p—whatever hell you want to route it through
 
-## 🧱 What It Has (So Far)
-
-- Identity generation + verification via `ed25519` keypairs
-- Signed session configs enforced by admin public key
-- Canonical JSON serialization for reproducible config hashes
-- Policy signature binding per chat session
-- Bootstrapped in TypeScript with TweetNaCl for cryptography
-
 ## 🚧 Roadmap
 
-- [ ] Session negotiation + config sync
-- [ ] Encrypted message envelopes
+### ✅ Implemented
+- Identity generation + signature binding (ed25519)
+- Session config signing + verification
+- Canonical JSON serialization for hash stability
+- Policy-bound session negotiation
+- Encrypted message envelopes (NaCl box.before)
+- Detached message signature + verification
+
+### 🔜 Next Up
 - [ ] Group chat enforcement (join, opt-in, kick-on-decline)
-- [ ] Mixnet-capable routing layer
-- [ ] Multi-device session hygiene
-- [ ] Contact discovery via key-only exchange
+- [ ] Multi-device session sync + device key binding
+- [ ] Config update propagation + opt-out purge
+- [ ] Mixnet-capable routing layer (decoy traffic, sealed sender)
+- [ ] Key-only contact exchange + discovery
+- [ ] Replay protection, nonce reuse prevention
+
+### 🧪 Possible Experiments
+- [ ] Post-quantum fallback (Kyber encapsulation swap-in)
+- [ ] Pluggable transport modules (Tor, I2P, Bluetooth relays?)
+- [ ] One-time key preloading (X3DH-style ratchet bootstrap)
 
 ## 💣 No Compromise Mode
 

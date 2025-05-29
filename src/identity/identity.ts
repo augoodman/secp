@@ -1,4 +1,6 @@
 import { generateKeyPair, generateEncryptionKeyPair, signMessage, verifySignature } from '../utils/crypto';
+import nacl from 'tweetnacl';
+import util from 'tweetnacl-util';
 
 export interface Identity {
   alias?: string;
@@ -9,29 +11,35 @@ export interface Identity {
 }
 
 export interface FullIdentity extends Identity {
-  privateKey: string;
+  signingPrivateKey: string;
+  signingPublicKey: string;
   encryptionPrivateKey: string;
+  encryptionPublicKey: string;
 }
   
-
 export function createIdentity(alias?: string): FullIdentity {
-  const { publicKey, privateKey } = generateKeyPair();
-  const { publicKey: encryptionPublicKey, privateKey: encryptionPrivateKey } = generateEncryptionKeyPair();
-  const createdAt = Date.now();
+  const signingKeyPair = nacl.sign.keyPair();
+  const encryptionKeyPair = nacl.box.keyPair();
+  
+  const signingPublicKey = util.encodeBase64(signingKeyPair.publicKey);
+  const signingPrivateKey = util.encodeBase64(signingKeyPair.secretKey);
+  const encryptionPublicKey = util.encodeBase64(encryptionKeyPair.publicKey);
+  const encryptionPrivateKey = util.encodeBase64(encryptionKeyPair.secretKey);
 
-  const identity: Omit<Identity, 'signature'> = {
+  const createdAt = Date.now();
+  const identity = {
     alias,
-    publicKey,
-    encryptionPublicKey,
+    publicKey: signingPublicKey, // legacy field
     createdAt,
   };
 
-  const signature = signMessage(JSON.stringify(identity), privateKey);
+  const signature = signMessage(JSON.stringify(identity), signingPrivateKey);
 
   return {
     ...identity,
     signature,
-    privateKey,
+    signingPrivateKey,
+    signingPublicKey,
     encryptionPrivateKey,
     encryptionPublicKey,
   };
