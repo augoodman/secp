@@ -13,6 +13,7 @@ export interface SessionConfig {
   createdAt: number;
   createdBy: string;
   signature?: string;
+  participants: string[];
 }
 
 function serializeConfig(config: SessionConfig): string {

@@ -1,7 +1,7 @@
-import { createIdentity } from './src/identity/identity';
-import { signConfig } from './src/session/config';
-import { proposeSession, acceptSession } from './src/session/session';
-import { encryptMessage, decryptMessage, hashMessage, EncryptedMessage } from './src/message/message';
+import { createIdentity } from '../src/identity/identity';
+import { signConfig } from '../src/session/config';
+import { proposeSession, acceptSession } from '../src/session/session';
+import { encryptMessage, decryptMessage, hashMessage, EncryptedMessage } from '../src/message/message';
 
 const alice = createIdentity('thread-alice');
 const bob = createIdentity('thread-bob');

@@ -1,7 +1,7 @@
 import nacl from 'tweetnacl';
 import * as util from 'tweetnacl-util';
-import { SessionState } from '../session/session';
 import { hashConfig } from '../session/config';
+import { SessionState } from '../session/types';
 import { signMessage, verifySignature } from '../utils/crypto';
 import { FullIdentity } from '../identity/identity';
 

@@ -1,4 +1,4 @@
-import { createIdentity, verifyIdentity } from './src/identity/identity';
+import { createIdentity, verifyIdentity } from '../src/identity/identity';
 
 const user = createIdentity('anon-warlord');
 console.log('Generated Identity:\n', user);

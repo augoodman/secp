@@ -1,6 +1,6 @@
-import { createIdentity, FullIdentity } from './src/identity/identity';
-import { signConfig, verifyConfig, hashConfig, SessionConfig } from './src/session/config';
-import { proposeSession, acceptSession, declineSession } from './src/session/session';
+import { createIdentity, FullIdentity } from '../src/identity/identity';
+import { signConfig, verifyConfig, hashConfig, SessionConfig } from '../src/session/config';
+import { proposeSession, acceptSession, declineSession } from '../src/session/session';
 
 // Step 1: Admin creates identity (with private key)
 const admin: FullIdentity = createIdentity('admin-overlord');
@@ -17,10 +17,11 @@ const rawConfig: SessionConfig = {
   sessionExpiry: 86400,
   createdAt: Date.now(),
   createdBy: admin.publicKey,
+  participants: [admin.publicKey],
 };
 
 // Step 3: Admin signs the config
-const signedConfig = signConfig(rawConfig, admin.privateKey);
+const signedConfig = signConfig(rawConfig, admin.signingPrivateKey);
 
 // Confirm it verifies cleanly
 console.log('🧾 Config valid?', verifyConfig(signedConfig));

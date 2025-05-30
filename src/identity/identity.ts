@@ -25,11 +25,11 @@ export function createIdentity(alias?: string): FullIdentity {
   const signingPrivateKey = util.encodeBase64(signingKeyPair.secretKey);
   const encryptionPublicKey = util.encodeBase64(encryptionKeyPair.publicKey);
   const encryptionPrivateKey = util.encodeBase64(encryptionKeyPair.secretKey);
-
+  
   const createdAt = Date.now();
   const identity = {
     alias,
-    publicKey: signingPublicKey, // legacy field
+    publicKey: signingPublicKey,
     createdAt,
   };
 
